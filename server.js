@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/detectLabels", async (req, res) => {
-  console.log("request received : ", req);
+  console.log("request received : ", req.files);
   try {
     if (!req.files || !req.files.image) {
       return res.status(400).json({ error: "Image file is missing" });
