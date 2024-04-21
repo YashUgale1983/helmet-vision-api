@@ -40,10 +40,14 @@ app.post("/detectLabels", async (req, res) => {
     fs.writeFileSync(filePath, imageData);
 
     const output = await labelAPI(filePath);
-    if (output == "Helmet detected") {
-      return res.status(200).json({ message: "Helmet detected" });
+    if (output.result == "Helmet detected") {
+      return res
+        .status(200)
+        .json({ message: "Helmet detected", labels: output.allLabels });
     } else {
-      return res.status(200).json({ message: "Helmet not detected" });
+      return res
+        .status(200)
+        .json({ message: "Helmet not detected", labels: output.allLabels });
     }
   } catch (error) {
     console.error("Error:", error);
@@ -79,11 +83,11 @@ async function labelAPI(imagePath) {
   const allLabels = labelLabels.concat(objectLabels);
 
   if (allLabels.includes("Helmet")) {
-    console.log("Helmet detected");
-    return "Helmet detected";
+    // console.log("Helmet detected");
+    return { result: "Helmet detected", allLabels };
   } else {
-    console.log("Helmet not detected");
-    return "Helmet not detected";
+    // console.log("Helmet not detected");
+    return { result: "Helmet not detected", allLabels };
   }
 }
 
