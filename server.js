@@ -97,25 +97,29 @@ app.listen(port, () => {
 
 // http://127.0.0.1:8888
 
-// var fs = require("fs");
+// const fs = require("fs");
 // const http = require("http");
 // const server = http.createServer();
 // const filePath = "./resources/test.jpeg";
 // require("dotenv").config();
 
 // server.on("request", (request, response) => {
-//   if (request.method == "POST" && request.url === "/detectLabels") {
-//     var ImageFile = fs.createWriteStream(filePath, { encoding: "utf8" });
+//   if (request.method === "POST" && request.url === "/imageUpdate") {
+//     const imageFile = fs.createWriteStream(filePath, { encoding: "utf8" });
 //     request.on("data", function (data) {
-//       ImageFile.write(data);
+//       imageFile.write(data);
 //     });
 
 //     request.on("end", async function () {
-//       ImageFile.end();
+//       imageFile.end();
 //       const labels = await labelAPI();
+//       console.log(labels);
 //       response.writeHead(200, { "Content-Type": "application/json" });
 //       response.end(JSON.stringify(labels));
 //     });
+//   } else if (request.method === "GET" && request.url === "/test") {
+//     response.writeHead(200, { "Content-Type": "text/plain" });
+//     response.end("Test successful");
 //   } else {
 //     console.log("error");
 //     response.writeHead(405, { "Content-Type": "text/plain" });
@@ -123,17 +127,17 @@ app.listen(port, () => {
 //   }
 // });
 
-// const credential = JSON.parse(
-//   Buffer.from(process.env.GOOGLE_SERVICE_KEY, "base64").toString()
-// );
-
 // async function labelAPI() {
-//   var o = [];
+//   const o = [];
 //   // Imports the Google Cloud client library
-//   const vision = require("@google-cloud/vision");
+//   const { ImageAnnotatorClient } = require("@google-cloud/vision");
+
+//   const credential = JSON.parse(
+//     Buffer.from(process.env.GOOGLE_SERVICE_KEY, "base64").toString()
+//   );
 
 //   // Creates a client
-//   const client = new vision.ImageAnnotatorClient({
+//   const client = new ImageAnnotatorClient({
 //     projectId: "helmetdetection-420512",
 //     // important
 //     credentials: {
@@ -144,6 +148,7 @@ app.listen(port, () => {
 
 //   // Performs label detection on the image file
 //   const [result] = await client.labelDetection(filePath);
+//   console.log(result);
 //   const labels = result.labelAnnotations;
 
 //   labels.forEach((label) => {
